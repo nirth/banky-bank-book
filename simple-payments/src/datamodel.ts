@@ -15,3 +15,5 @@ export type PaymentFactory = (
 export type Ledger = {
   payments: Payment[]
 }
+
+export type Balance = number
