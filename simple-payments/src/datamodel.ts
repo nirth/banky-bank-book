@@ -1,19 +1,24 @@
-export type Payment = {
+export type Txn = {
   date: Date
   originator: string
   beneficiary: string
   amount: number
 }
 
-export type PaymentFactory = (
-  date: Date,
-  originator: string,
-  beneficiary: string,
-  amount: number
-) => Payment
+export type Ledger = Txn[]
 
-export type Ledger = {
-  payments: Payment[]
+export type Payment = {
+  date: Date
+  amount: number
+  counterParty: string
 }
 
-export type Balance = number
+export type CustomerStatement = {
+  customer: string
+  year: Date
+  payments: Payment[]
+  yearStartBalance: number
+}
+
+export type TxnToPayment = (customer: string, txn: Txn) => Payment
+export type PaymentsToBalance = (payments: Payment[]) => number

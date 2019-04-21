@@ -1,7 +1,8 @@
-export const aliceAndBobPaymentsLedger2020 = `
+export const year2020transactions = `
 Date	Originator	Beneficiary	Amount
-2019-12-31	Cash Deposit	Alice	£100,000.00
+2020-01-01	Cash Deposit	Alice	£100,000.00
 2020-01-01	Alice	Bob	£3,500.00
+2020-01-02	Bob	Alice	£200.00
 2020-01-16	Bob	Alice	£200.00
 2020-01-30	Bob	Alice	£200.00
 2020-02-01	Alice	Bob	£3,500.00
@@ -38,4 +39,5 @@ Date	Originator	Beneficiary	Amount
 2020-12-01	Alice	Bob	£3,500.00
 2020-12-03	Bob	Alice	£200.00
 2020-12-17	Bob	Alice	£200.00
-2020-12-31	Bob	Alice	£200.00`
+2020-12-31	Bob	Alice	£200.00
+`
