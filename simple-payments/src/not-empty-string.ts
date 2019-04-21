@@ -1,6 +1,10 @@
 export const notEmptyString = (candidate: any): boolean =>
   typeof candidate === 'string' && candidate.length > 0
 
+/**************************
+ * Testing notEmptyString *
+ **************************/
+
 console.assert(
   notEmptyString('') === false,
   'Expected nonEmptyString to return false when checking empty string ""'

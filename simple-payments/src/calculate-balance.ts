@@ -16,4 +16,17 @@ export const calculateBalance = (
  * Testing calculateBalance *
  ****************************/
 
-// const mockPayments =
+const mockPayments: Payment[] = [
+  { date: new Date('2020-04-01'), amount: -200, counterParty: 'Alice' },
+  { date: new Date('2020-04-01'), amount: -200, counterParty: 'Alice' },
+  { date: new Date('2020-04-01'), amount: 3500, counterParty: 'Alice' },
+]
+
+const expectedBalance = 3100
+const actualBalance = calculateBalance(mockPayments, 0)
+
+console.assert(
+  actualBalance === expectedBalance,
+  `Expected balance to be ${expectedBalance},
+  instead got ${actualBalance}`
+)

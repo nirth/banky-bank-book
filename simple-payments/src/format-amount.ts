@@ -20,3 +20,15 @@ const actualPositivePrintAmount = formatAmount(mockPositiveAmount)
 
 const expectedNegativePrintAmount = '-£5,000.00'
 const actualNegativePrintAmount = formatAmount(mockNegativeAmount)
+
+console.assert(
+  actualPositivePrintAmount === expectedPositivePrintAmount,
+  `Expected parsed amount to look like ${expectedPositivePrintAmount},
+  instead got ${actualPositivePrintAmount}`
+)
+
+console.assert(
+  actualNegativePrintAmount === expectedNegativePrintAmount,
+  `Expected parsed amount to look like ${expectedNegativePrintAmount},
+  instead got ${actualNegativePrintAmount}`
+)

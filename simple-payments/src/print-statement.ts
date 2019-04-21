@@ -1,8 +1,9 @@
-import { CustomerStatement } from './datamodel'
+import { CustomerStatement, Ledger, Payment } from './datamodel'
 import { padLeft } from './pad-left'
 import { calculateBalance } from './calculate-balance'
 import { printPaymentRow } from './print-payment-row'
 import { formatAmount } from './format-amount'
+import { createCustomerStatement } from './create-customer-statement'
 
 export const printStatement = (statement: CustomerStatement): string => {
   const { customer, yearStartBalance, payments } = statement
@@ -24,7 +25,7 @@ export const printStatement = (statement: CustomerStatement): string => {
 |          Date | Counter Party |       Amount  |
 +---------------+---------------+---------------+
 ${payments.map(printPaymentRow).join('\n')}
-+------------+---------------+------------------+
++---------------+---------------+---------------+
 | Best Regards,                                 |
 | Banky Bank                                    |
 +-----------------------------------------------+
@@ -35,59 +36,81 @@ ${payments.map(printPaymentRow).join('\n')}
  * Testing printStatement
  */
 
-const mockTransactionsString = `
-Date	Originator	Beneficiary	Amount
-2020-01-01	Alice	Bob	£3,500.00
-2020-01-16	Bob	Alice	£200.00
-2020-01-30	Bob	Alice	£200.00
-2020-02-01	Alice	Bob	£3,500.00
-2020-02-13	Bob	Alice	£200.00
-2020-02-27	Bob	Alice	£200.00
-2020-03-01	Alice	Bob	£3,500.00
-`
+const mockPayments: Payment[] = [
+  {
+    date: new Date('2020-01-01'),
+    counterParty: 'Bob',
+    amount: -3500.0,
+  },
+  {
+    date: new Date('2020-01-02'),
+    counterParty: 'Bob',
+    amount: 200,
+  },
+  {
+    date: new Date('2020-01-16'),
+    counterParty: 'Bob',
+    amount: 200,
+  },
+  {
+    date: new Date('2020-01-30'),
+    counterParty: 'Bob',
+    amount: 200,
+  },
+  {
+    date: new Date('2020-02-01'),
+    counterParty: 'Bob',
+    amount: -3500,
+  },
+  {
+    date: new Date('2020-02-13'),
+    counterParty: 'Bob',
+    amount: 200,
+  },
+  {
+    date: new Date('2020-02-27'),
+    counterParty: 'Bob',
+    amount: 200,
+  },
+  {
+    date: new Date('2020-03-01'),
+    counterParty: 'Bob',
+    amount: -3500,
+  },
+]
+const mockAliceStatement: CustomerStatement = {
+  customer: 'Alice',
+  year: new Date('2020'),
+  yearStartBalance: 0,
+  payments: mockPayments,
+}
 
-const expectedAlicesStatement = `
+const expectedAlicesPrintStatement = `
 +-----------------------------------------------+
 |                                   Hello Alice |
-|                              Your balance is  |
+|                    Your balance is -£9,500.00 |
 |                                               |
 | List of Your Payment Transactions             |
 +-----------------------------------------------+
 |          Date | Counter Party |       Amount  |
 +---------------+---------------+---------------+
 |    2020-01-01 |           Bob |    -£3,500.00 |
-|    2020-01-02 |           Bob |      +£200.00 |
-|    2020-01-02 |           Bob |      +£200.00 |
-|    2020-01-02 |           Bob |      +£200.00 |
+|    2020-01-02 |           Bob |       £200.00 |
+|    2020-01-16 |           Bob |       £200.00 |
+|    2020-01-30 |           Bob |       £200.00 |
 |    2020-02-01 |           Bob |    -£3,500.00 |
-|    2020-02-02 |           Bob |      +£200.00 |
-|    2020-02-02 |           Bob |      +£200.00 |
+|    2020-02-13 |           Bob |       £200.00 |
+|    2020-02-27 |           Bob |       £200.00 |
 |    2020-03-01 |           Bob |    -£3,500.00 |
-+------------+---------------+------------------+
++---------------+---------------+---------------+
 | Best Regards,                                 |
 | Banky Bank                                    |
 +-----------------------------------------------+
 `
+const actualAlicesPrintStatement = printStatement(mockAliceStatement)
 
-const expectedBobsStatement = `
-+------------------------------------------ +
-| Hello Bob                                 |
-| Your balance is:                          |
-|                                           |
-| List of Your Payment Transactions         |
-+------------------------------------------ +
-| Date       | Counter Party |      Amount  |
-+------------+---------------+------------- +
-| 2020-01-01 |         Alice |   +£3,500.00 |
-| 2020-01-02 |         Alice |     -£200.00 |
-| 2020-01-02 |         Alice |     -£200.00 |
-| 2020-01-02 |         Alice |     -£200.00 |
-| 2020-02-01 |         Alice |   +£3,500.00 |
-| 2020-02-02 |         Alice |     -£200.00 |
-| 2020-02-02 |         Alice |     -£200.00 |
-| 2020-03-01 |         Alice |   +£3,500.00 |
-+------------+---------------+--------------+
-| Best Regards,                             |
-| Banky Bank                                |
-+-------------------------------------------+
-`
+console.assert(
+  actualAlicesPrintStatement === expectedAlicesPrintStatement,
+  `Expected statement to look like ${expectedAlicesPrintStatement},
+  instead got ${actualAlicesPrintStatement}`
+)
