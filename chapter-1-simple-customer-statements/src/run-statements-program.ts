@@ -18,6 +18,8 @@ const bobsStatement = createCustomerStatement(
   0
 )
 
-console.log(printStatement(alicesStatement))
+console.info('Generating Statement for Alice')
+console.info(printStatement(alicesStatement))
 
-console.log(printStatement(bobsStatement))
+console.info('Generating Statement for Bob')
+console.info(printStatement(bobsStatement))

@@ -7,12 +7,9 @@
   "private": true,
   "scripts": {
     "build": "node_modules/.bin/tsc",
-    "test": "node_modules/.bin/cucumber-js"
+    "start": "npm run build && node ./dist/run-statements-program"
   },
   "devDependencies": {
-    "chai": "^4.2.0",
-    "cucumber": "^5.1.0",
-    "eslint": "^5.16.0",
     "prettier": "^1.17.0",
     "typescript": "^3.4.4"
   },
