@@ -1,10 +1,10 @@
-import { Payment } from './datamodel'
+import { Payment, PaymentsToBalance } from './datamodel'
 
 const addAmount = (total: number, amount: number): number => total + amount
 
-export const calculateBalance = (
-  payments: Payment[],
-  previousBalance: number
+export const calculateBalance: PaymentsToBalance = (
+  previousBalance: number,
+  payments: Payment[]
 ): number => {
   const amounts = payments.map(payment => payment.amount)
   const sum = amounts.reduce(addAmount, previousBalance)
@@ -23,7 +23,7 @@ const mockPayments: Payment[] = [
 ]
 
 const expectedBalance = 3100
-const actualBalance = calculateBalance(mockPayments, 0)
+const actualBalance = calculateBalance(0, mockPayments)
 
 console.assert(
   actualBalance === expectedBalance,

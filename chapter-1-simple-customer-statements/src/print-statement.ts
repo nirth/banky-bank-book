@@ -3,12 +3,11 @@ import { padLeft } from './pad-left'
 import { calculateBalance } from './calculate-balance'
 import { printPaymentRow } from './print-payment-row'
 import { formatAmount } from './format-amount'
-import { createCustomerStatement } from './create-customer-statement'
 
 export const printStatement = (statement: CustomerStatement): string => {
   const { customer, yearStartBalance, payments } = statement
   const greetingString = padLeft(`Hello ${customer}`, 46)
-  const yearEndBalance = calculateBalance(payments, yearStartBalance)
+  const yearEndBalance = calculateBalance(yearStartBalance, payments)
   const formattedYearEndAmount = formatAmount(yearEndBalance)
   const yearEndBalanceString = padLeft(
     `Your balance is ${formattedYearEndAmount}`,
