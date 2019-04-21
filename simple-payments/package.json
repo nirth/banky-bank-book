@@ -1,0 +1,20 @@
+{
+  "name": "simple-payments",
+  "version": "1.0.0",
+  "main": "dist/main.js",
+  "author": "David S Grigoryan <david@fyuld.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "node_modules/.bin/tsc",
+    "test": "node_modules/.bin/cucumber-js"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "cucumber": "^5.1.0",
+    "eslint": "^5.16.0",
+    "prettier": "^1.17.0",
+    "typescript": "^3.4.4"
+  },
+  "dependencies": {}
+}
