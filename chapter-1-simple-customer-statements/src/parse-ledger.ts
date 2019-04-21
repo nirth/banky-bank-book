@@ -27,7 +27,6 @@ Date	Originator	Beneficiary	Amount
 `
 
 const expectedLedger: Ledger = [
-  parseTxnRow('2019-12-31	Cash Deposit	Alice	£100,000.00'),
   parseTxnRow('2020-01-01	Alice	Bob	£3,500.00'),
   parseTxnRow('2020-01-16	Bob	Alice	£200.00'),
   parseTxnRow('2020-01-30	Bob	Alice	£200.00'),
@@ -44,3 +43,13 @@ console.assert(
   `Expected parsed ledger to contain ${expectedLedger.length} payments,
   instead got ${actualLedger.length}`
 )
+
+for (let i = 0; i < expectedLedger.length; i++) {
+  const expected = expectedLedger[i]
+  const actual = actualLedger[i]
+
+  console.assert(
+    actual.amount === expected.amount,
+    `Expected amount to be ${expected.amount}, instead got ${actual.amount}`
+  )
+}

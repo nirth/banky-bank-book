@@ -7,15 +7,15 @@ export const printPaymentRow = (payment: Payment): string => {
 
   // Date
   const [dateString, timeString] = date.toISOString().split('T')
-  const printDate = padLeft(dateString, 15)
+  const printDate = padLeft(dateString, 14)
 
   // Amount
   const formattedAmount = formatAmount(amount)
-  const printAmount = padLeft(formattedAmount, 15)
+  const printAmount = padLeft(formattedAmount, 14)
 
   // Counter Party
-  const printCounterParty = padLeft(counterParty, 15)
-  return `|${printDate}|${printCounterParty}|${printAmount}|`
+  const printCounterParty = padLeft(counterParty, 14)
+  return `|${printDate} |${printCounterParty} |${printAmount} |`
 }
 
 /***************************
@@ -28,5 +28,11 @@ const mockIncomingPayment: Payment = {
   counterParty: 'Bob',
 }
 
-const expectedPaymentRow = '|    2020-04-01 |           Bob |      +£200.00 |'
+const expectedPaymentRow = '|    2020-04-01 |           Bob |       £200.00 |'
 const actualPaymentRow = printPaymentRow(mockIncomingPayment)
+
+console.assert(
+  actualPaymentRow === expectedPaymentRow,
+  `Expected payment row to look like ${expectedPaymentRow},
+  instead got ${actualPaymentRow}`
+)
