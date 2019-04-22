@@ -1,12 +1,12 @@
 import { Ledger } from './datamodel'
-import { parseTxnRow } from './parse-txn-row'
 import { notEmptyString } from './not-empty-string'
+import { parseRowToTxn } from './parse-row-to-txn'
 
 export const parseLedger = (tsvString: string): Ledger => {
   const splitRows = tsvString.split('\n')
   const nonEmptyRows = splitRows.filter(notEmptyString)
   const validTxnRows = nonEmptyRows.splice(1)
-  const parsedTxns = validTxnRows.map(parseTxnRow)
+  const parsedTxns = validTxnRows.map(parseRowToTxn)
 
   return parsedTxns
 }
@@ -27,13 +27,13 @@ Date	Originator	Beneficiary	Amount
 `
 
 const expectedLedger: Ledger = [
-  parseTxnRow('2020-01-01	Alice	Bob	£3,500.00'),
-  parseTxnRow('2020-01-16	Bob	Alice	£200.00'),
-  parseTxnRow('2020-01-30	Bob	Alice	£200.00'),
-  parseTxnRow('2020-02-01	Alice	Bob	£3,500.00'),
-  parseTxnRow('2020-02-13	Bob	Alice	£200.00'),
-  parseTxnRow('2020-02-27	Bob	Alice	£200.00'),
-  parseTxnRow('2020-03-01	Alice	Bob	£3,500.00'),
+  parseRowToTxn('2020-01-01	Alice	Bob	£3,500.00'),
+  parseRowToTxn('2020-01-16	Bob	Alice	£200.00'),
+  parseRowToTxn('2020-01-30	Bob	Alice	£200.00'),
+  parseRowToTxn('2020-02-01	Alice	Bob	£3,500.00'),
+  parseRowToTxn('2020-02-13	Bob	Alice	£200.00'),
+  parseRowToTxn('2020-02-27	Bob	Alice	£200.00'),
+  parseRowToTxn('2020-03-01	Alice	Bob	£3,500.00'),
 ]
 
 const actualLedger: Ledger = parseLedger(mockTsvString)

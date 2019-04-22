@@ -1,7 +1,7 @@
 import { Txn } from './datamodel'
 import { parseAmount } from './parse-amount'
 
-export const parseTxnRow = (txnString: string): Txn => {
+export const parseRowToTxn = (txnString: string): Txn => {
   const paymentParts = txnString.split('\t').map((part: string) => part.trim())
 
   const [dateString, originator, beneficiary, amountString] = paymentParts
@@ -18,16 +18,17 @@ export const parseTxnRow = (txnString: string): Txn => {
 }
 
 /***************************
- * Testing parsePaymentRow *
+ * Testing parseRowToTxn *
  ***************************/
 
+const mockTxnRow = '2020-01-16	Bob	Alice	£200.00'
 const expectedTxn: Txn = {
   date: new Date('2020-01-16'),
   originator: 'Bob',
   beneficiary: 'Alice',
   amount: 200,
 }
-const actualTxn = parseTxnRow('2020-01-16	Bob	Alice	£200.00')
+const actualTxn = parseRowToTxn(mockTxnRow)
 
 console.assert(
   actualTxn.date.valueOf() === expectedTxn.date.valueOf(),

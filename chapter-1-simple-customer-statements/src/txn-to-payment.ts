@@ -1,5 +1,4 @@
 import { Payment, Txn, TxnToPayment } from './datamodel'
-import { parseTxnRow } from './parse-txn-row'
 
 export const txnToPayment: TxnToPayment = (
   customer: string,
@@ -24,7 +23,12 @@ export const txnToPayment: TxnToPayment = (
  * Testing txnToPayment *
  ************************/
 
-const mockTxn: Txn = parseTxnRow('2020-01-01	Alice	Bob	£3,500.00')
+const mockTxn: Txn = {
+  date: new Date('2020-01-01'),
+  originator: 'Alice',
+  beneficiary: 'Bob',
+  amount: 3500,
+}
 
 const expectedAlicePayment = {
   date: mockTxn.date,
