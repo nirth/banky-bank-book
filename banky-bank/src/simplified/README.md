@@ -14,11 +14,4 @@
 - In crypto there is no difference between native currencies and tokens.
 - There is no crypto mining.
 
-### Nomenclature
-
-- BIC (`Bic`, or `bic`): Bank Identification Code.
-- SWIFT (`Swift`, `swift`):
-- SWIFT Code (`SwiftCode`, `swiftCode`):
-- ISO 3166: Standard defines country names. Banky Bank utilises ISO 3166 Alpha-2 Code that uses two letters for a country, such as US for United States, GB for United Kingdom, FR for France, DE for Germany, etc.
-- ISO 4217: Standard that defines active currencies. https://en.wikipedia.org/wiki/ISO_4217#Unofficial_currency_codes
 -

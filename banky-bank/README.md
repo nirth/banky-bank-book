@@ -32,7 +32,10 @@ export const plus = (a, b) => a + b
 export const minus = (a, b) => a - b
 ```
 
-Default exports are strongly discouraged, default exports do not enforce control for the proper naming, thus can be dangerous. Check this article for mode details: https://blog.neufund.org/why-we-have-banned-default-exports-and-you-should-do-the-same-d51fdc2cf2ad
+Default exports are strongly discouraged, default exports do not enforce control for the proper naming, thus can be dangerous. Check this article for mode details:
+
+- https://blog.neufund.org/why-we-have-banned-default-exports-and-you-should-do-the-same-d51fdc2cf2ad
+- https://humanwhocodes.com/blog/2019/01/stop-using-default-exports-javascript-module/
 
 ### Nomenclature
 

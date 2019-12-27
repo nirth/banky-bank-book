@@ -1,1 +1,1 @@
-import { Scenario } from 'scenario'
+import { Scenario } from './Scenario'
