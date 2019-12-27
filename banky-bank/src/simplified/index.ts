@@ -1,0 +1,1 @@
+import { Scenario } from 'scenario'
