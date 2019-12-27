@@ -10,11 +10,11 @@
     "test": "node_modules/.bin/cucumber-js"
   },
   "devDependencies": {
-    "chai": "^4.2.0",
-    "cucumber": "^6.0.5",
-    "eslint": "^6.8.0",
-    "prettier": "^1.19.1",
-    "typescript": "^3.7.4"
+    "chai": "4.2.0",
+    "cucumber": "6.0.5",
+    "eslint": "6.8.0",
+    "prettier": "1.19.1",
+    "typescript": "3.7.4"
   },
   "dependencies": {}
 }
