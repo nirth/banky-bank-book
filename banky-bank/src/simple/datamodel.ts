@@ -9,6 +9,24 @@ export enum TxType {
 	DirectDebit = 'DIRECT_DEBIT',
 }
 
+export enum CashTxStatus {
+	Initiated = 'INITIATED',
+	Executed = 'EXECUTED',
+	Settled = 'SETTLED',
+	Declined = 'DECLINED',
+}
+
+export enum EntityType {
+	Person = 'PERSON',
+	Company = 'COMPANY',
+}
+
+export enum CustomerType {
+	Person = 'PERSON',
+	Family = 'FAMILY',
+	Company = 'COMPANY',
+}
+
 export type SimplifiedDatetime = {
 	year: number
 	month: number
@@ -19,13 +37,17 @@ export type Bic = string
 export type PersonName = string
 export type CompanyName = string
 export type EntityName = PersonName | CompanyName
+export type CustomerName = EntityName
 export type Amount = string
+export type Datetime = number
 
 export type Person = {
+	type: EntityType.Person
 	name: PersonName
 }
 
 export type Company = {
+	type: EntityType.Company
 	name: CompanyName
 	directors: EntityName[]
 }
@@ -37,9 +59,10 @@ export type Bank = {
 }
 
 export type CashAccount = {
+	type: CustomerType
 	bic: Bic
 	accountNumber: string
-	owner: EntityName
+	owner: CustomerName
 	currency: Currency
 	balance: Amount
 	txs: CashTx[]
@@ -47,6 +70,7 @@ export type CashAccount = {
 }
 
 export type CashTx = {
+	status: CashTxStatus
 	txType: TxType
 	senderBank: Bic
 	receiverBank: Bic
@@ -54,6 +78,10 @@ export type CashTx = {
 	beneficiaryCustomerCashAccount: EntityName
 	amount: Amount
 	currency: Currency
+	initiatedAt: Datetime
+	executedAt: Datetime
+	settledAt?: Datetime
+	declinedAt?: Datetime
 }
 
 export type World = {

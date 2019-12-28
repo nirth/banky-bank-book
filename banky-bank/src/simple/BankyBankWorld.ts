@@ -1,22 +1,28 @@
 import {
-	CashAccount,
-	CompanyName,
-	PersonName,
+	Amount,
+	Bank,
 	Bic,
+	CashAccount,
+	CashTx,
 	Company,
+	CompanyName,
+	Currency,
 	EntityName,
 	Person,
-	Bank,
+	PersonName,
 	World,
-	CashTx,
-	Amount,
-	Currency,
 	SimplifiedDatetime,
 	TxType,
+	Datetime,
+	CashTxStatus,
+	CustomerName,
+	EntityType,
+	CustomerType,
 } from './datamodel'
-import { computeAmount, fromAmount, toAmount } from './utils'
+import * as engine from './engine'
+import { computeAmountDelta, fromAmount, toAmount } from './utils'
 
-class Scenario {
+class BankyBankWorld {
 	world: World
 	simplifiedDatetime: SimplifiedDatetime = { year: -1, month: -1, day: -1 }
 
@@ -25,12 +31,12 @@ class Scenario {
 		this.setDatetime(datetime)
 	}
 
-	setDatetime(datetime: SimplifiedDatetime): Scenario {
+	setDatetime(datetime: SimplifiedDatetime): BankyBankWorld {
 		this.simplifiedDatetime = datetime
 		return this
 	}
 
-	nextDay(): Scenario {
+	nextDay(): BankyBankWorld {
 		const currentDay = this.simplifiedDatetime.day
 		const nextDay = currentDay === 30 ? 1 : currentDay + 1
 		this.simplifiedDatetime.day = nextDay
@@ -40,7 +46,7 @@ class Scenario {
 		return this
 	}
 
-	nextMonth(resetDay: boolean = false): Scenario {
+	nextMonth(resetDay: boolean = false): BankyBankWorld {
 		const currentMonth = this.simplifiedDatetime.month
 		const nextMonth = currentMonth === 12 ? 1 : currentMonth + 1
 		this.simplifiedDatetime.month = nextMonth
@@ -54,19 +60,30 @@ class Scenario {
 		return this
 	}
 
-	clearAndSettle(): Scenario {
+	get currentDatetime(): Datetime {
+		const { year, month, day } = this.simplifiedDatetime
+		return year * month * day
+	}
+
+	clearAndSettle(): BankyBankWorld {
 		Object.values(this.world.banks).forEach((bank: Bank) => {
 			Object.values(bank.cashAccounts).forEach((cashAccount: CashAccount) => {
 				const currentBalance = fromAmount(cashAccount.balance)
 				const nextBalance = cashAccount.txs
 					.map((tx: CashTx) => {
-						const relativeAmount = computeAmount(bank, cashAccount, tx)
+						const relativeAmount = computeAmountDelta(bank, cashAccount, tx)
 
 						return relativeAmount
 					})
 					.reduce((balance: number, amount: number) => balance + amount, currentBalance)
 
-				cashAccount.settledTxs.push(...cashAccount.txs)
+				const settledTxs: CashTx[] = cashAccount.txs.map((tx: CashTx) => ({
+					...tx,
+					status: CashTxStatus.Settled,
+					settledAt: this.currentDatetime,
+				}))
+
+				cashAccount.settledTxs.push(...settledTxs)
 
 				cashAccount.txs = []
 
@@ -77,64 +94,39 @@ class Scenario {
 		return this
 	}
 
-	createBank(name: string, bic: Bic): Scenario {
+	createBank(name: string, bic: Bic): BankyBankWorld {
 		const bank: Bank = { name, bic, cashAccounts: {} }
 		this.world.banks[bic] = bank
 		return this
 	}
 
-	createPerson(name: PersonName): Scenario {
-		const person: Person = { name }
-		this.world.persons[name] = person
+	createPerson(name: PersonName): BankyBankWorld {
+		this.world.persons[name] = engine.createPerson(name)
 		return this
 	}
 
-	createCompany(name: CompanyName, directors: EntityName[]): Scenario {
-		const company: Company = { name, directors }
-		this.world.companies[name] = company
+	createCompany(name: CompanyName, directors: EntityName[]): BankyBankWorld {
+		this.world.companies[name] = engine.createCompany(name, directors)
 		return this
 	}
 
-	createPersonCashAccount(
+	createCashAccount(
+		customerType: CustomerType,
 		bic: Bic,
-		personName: PersonName,
+		customerName: CustomerName,
 		accountNumber: string,
 		currency: Currency,
-		balance: Amount
-	): Scenario {
-		const cashAccount: CashAccount = {
-			bic,
-			accountNumber,
-			owner: personName,
-			currency,
-			balance,
-			txs: [],
-			settledTxs: [],
-		}
+		initialBalance: Amount
+	): BankyBankWorld {
 		const bank: Bank = this.world.banks[bic]
-		bank.cashAccounts[accountNumber] = cashAccount
-		return this
-	}
-
-	createCompanyCashAccount(
-		bic: Bic,
-		companyName: CompanyName,
-		accountNumber: string,
-		currency: Currency,
-		balance: Amount
-	): Scenario {
-		const cashAccount: CashAccount = {
+		bank.cashAccounts[accountNumber] = engine.createCashAccount(
+			customerType,
 			bic,
+			customerName,
 			accountNumber,
-			owner: companyName,
 			currency,
-			balance,
-			txs: [],
-			settledTxs: [],
-		}
-
-		const bank: Bank = this.world.banks[bic]
-		bank.cashAccounts[accountNumber] = cashAccount
+			initialBalance
+		)
 		return this
 	}
 
@@ -143,10 +135,11 @@ class Scenario {
 		receiverBank: Bic,
 		orderingCustomerCashAccount: string,
 		beneficiaryCustomerCashAccount: string,
-		amount: Amount,
-		currency: Currency
-	): Scenario {
+		currency: Currency,
+		amount: Amount
+	): BankyBankWorld {
 		const tx: CashTx = {
+			status: CashTxStatus.Initiated,
 			txType: TxType.CreditTransfer,
 			senderBank,
 			orderingCustomerCashAccount,
@@ -154,6 +147,8 @@ class Scenario {
 			beneficiaryCustomerCashAccount,
 			amount,
 			currency,
+			initiatedAt: this.currentDatetime,
+			executedAt: this.currentDatetime,
 		}
 
 		const senderBankAccount: CashAccount = this.world.banks[senderBank].cashAccounts[
@@ -170,4 +165,4 @@ class Scenario {
 	}
 }
 
-export { Scenario }
+export { BankyBankWorld }

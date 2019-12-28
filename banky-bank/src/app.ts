@@ -1,5 +1,4 @@
-import { Scenario } from './simplified/Scenario'
-import { displayBank, displayBanks } from './simplified/scenario-displays'
+import { displayBanks } from './simple/scenario-displays'
 
 // require('dotenv').config();
 // import { createLogger } from './create-logger';
@@ -15,9 +14,9 @@ import { displayBank, displayBanks } from './simplified/scenario-displays'
 
 // fetchColors();
 
-import { setupScenario, runScenario } from './simplified/scenarios/bob-works-for-alice'
+import { BobWorkdsForAlice } from './simple/narratives/BobWorkdsForAlice'
 
-const scenario = setupScenario()
+const scenario = BobWorkdsForAlice.setup()
 console.info('Before:', displayBanks(scenario.world))
-const executedScenario = runScenario(scenario)
+const executedScenario = BobWorkdsForAlice.run(scenario)
 console.info('After:', displayBanks(executedScenario.world))

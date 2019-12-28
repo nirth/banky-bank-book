@@ -1,6 +1,6 @@
 import { CashTx, Bank, CashAccount, TxType, Amount } from './datamodel'
 
-const computeTxDirectionMetadata = (bank: Bank, cashAccount: CashAccount, tx: CashTx) => {
+export const computeTxDirectionMetadata = (bank: Bank, cashAccount: CashAccount, tx: CashTx) => {
 	const isCreditTransfer = tx.txType === TxType.CreditTransfer
 	const isDirectDebit = tx.txType === TxType.DirectDebit
 	const isIncoming =
@@ -12,7 +12,8 @@ const computeTxDirectionMetadata = (bank: Bank, cashAccount: CashAccount, tx: Ca
 		isIncoming,
 	}
 }
-export const computeAmount = (bank: Bank, cashAccount: CashAccount, tx: CashTx): number => {
+
+export const computeAmountDelta = (bank: Bank, cashAccount: CashAccount, tx: CashTx): number => {
 	const { isCreditTransfer, isDirectDebit, isIncoming } = computeTxDirectionMetadata(
 		bank,
 		cashAccount,
