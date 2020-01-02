@@ -1,0 +1,17 @@
+{
+  "name": "simple-payments",
+  "version": "1.0.0",
+  "main": "dist/main.js",
+  "author": "David S Grigoryan <david@fyuld.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "node_modules/.bin/tsc",
+    "start": "npm run build && node ./dist/run-statements-program"
+  },
+  "devDependencies": {
+    "prettier": "^1.17.0",
+    "typescript": "^3.4.4"
+  },
+  "dependencies": {}
+}
