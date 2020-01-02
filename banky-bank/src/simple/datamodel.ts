@@ -33,6 +33,9 @@ export type SimplifiedDatetime = {
 	day: number
 }
 
+export type FinancialInstitution = Bank
+export type FinancialMessage = CashTx
+
 export type Bic = string
 export type PersonName = string
 export type CompanyName = string

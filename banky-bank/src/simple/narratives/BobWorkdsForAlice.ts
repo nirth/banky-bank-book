@@ -1,5 +1,5 @@
 import { BankyBankWorld } from '../BankyBankWorld'
-import { Currency } from '../datamodel'
+import { Currency, CustomerType } from '../datamodel'
 
 const setup = (): BankyBankWorld =>
 	new BankyBankWorld('Bob’s Life', { year: 20, month: 1, day: 1 })
@@ -8,9 +8,16 @@ const setup = (): BankyBankWorld =>
 		.createCompany('AncillaryGroceries', ['Alice'])
 		.createBank('AcmeBank', 'AC22BANK')
 		.createBank('BankyBank', 'BB33BANK')
-		.createPersonCashAccount('AC22BANK', 'Alice', 'A0001', Currency.Gbp, '0.00')
-		.createPersonCashAccount('AC22BANK', 'Bob', 'A0002', Currency.Gbp, '0.00')
-		.createCompanyCashAccount('BB33BANK', 'AncillaryGroceries', 'B0001', Currency.Gbp, '150,000.00')
+		.createCashAccount(CustomerType.Person, 'AC22BANK', 'Alice', 'A0001', Currency.Gbp, '0.00')
+		.createCashAccount(CustomerType.Person, 'AC22BANK', 'Bob', 'A0002', Currency.Gbp, '0.00')
+		.createCashAccount(
+			CustomerType.Company,
+			'BB33BANK',
+			'AncillaryGroceries',
+			'B0001',
+			Currency.Gbp,
+			'150,000.00'
+		)
 
 const run = (scenario: BankyBankWorld): BankyBankWorld =>
 	scenario

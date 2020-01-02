@@ -14,9 +14,11 @@ import { displayBanks } from './simple/scenario-displays'
 
 // fetchColors();
 
-import { BobWorkdsForAlice } from './simple/narratives/BobWorkdsForAlice'
+// import { BobWorkdsForAlice } from './simple/narratives/BobWorkdsForAlice'
 
-const scenario = BobWorkdsForAlice.setup()
-console.info('Before:', displayBanks(scenario.world))
-const executedScenario = BobWorkdsForAlice.run(scenario)
-console.info('After:', displayBanks(executedScenario.world))
+// const scenario = BobWorkdsForAlice.setup()
+// console.info('Before:', displayBanks(scenario.world))
+// const executedScenario = BobWorkdsForAlice.run(scenario)
+// console.info('After:', displayBanks(executedScenario.world))
+
+import './complex'

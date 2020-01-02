@@ -151,15 +151,27 @@ class BankyBankWorld {
 			executedAt: this.currentDatetime,
 		}
 
-		const senderBankAccount: CashAccount = this.world.banks[senderBank].cashAccounts[
-			orderingCustomerCashAccount
+		this.executePayment(tx)
+
+		return this
+	}
+
+	executePayment(tx: CashTx): BankyBankWorld {
+		const senderBankAccount: CashAccount = this.world.banks[tx.senderBank].cashAccounts[
+			tx.orderingCustomerCashAccount
 		]
-		const receiverBankAccount: CashAccount = this.world.banks[receiverBank].cashAccounts[
-			beneficiaryCustomerCashAccount
+		const receiverBankAccount: CashAccount = this.world.banks[tx.receiverBank].cashAccounts[
+			tx.beneficiaryCustomerCashAccount
 		]
+
+		// TODO: Pre-Execution Incoming Hooks
+		// TODO: Pre-Execution Outgoing Hooks
 
 		senderBankAccount.txs.push(tx)
 		receiverBankAccount.txs.push(tx)
+
+		// TODO: Post Execution Incoming Hooks
+		// TODO: Post Execution Outgoing Hooks
 
 		return this
 	}
