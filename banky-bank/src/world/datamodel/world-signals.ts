@@ -1,4 +1,14 @@
-import { NaturalPerson, Company, CompanyDirector, CompanyShareholder } from './world-entities'
+import {
+	NaturalPerson,
+	Company,
+	CompanyDirector,
+	CompanyShareholder,
+	Human,
+} from './world-entities'
+
+export type HumanEmerged = {
+	[dateAndName: string]: Human
+}
 
 export type NaturalPersonRegistered = {
 	[countryAndNin: string]: NaturalPerson

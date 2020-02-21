@@ -1,5 +1,4 @@
 export type IsoDate = string
-
 export type NationalIdentificationNumber = string
 export type CompanyNumber = string
 export type TaxIdentificationNumber = string
@@ -17,6 +16,12 @@ export enum PersonKind {
 	LegalPerson = 'LEGAL_PERSON',
 }
 
+export type Human = {
+	name: string
+	dateOfBirth: IsoDate
+	country: CountryCode
+}
+
 export type NaturalPerson = {
 	personKind: PersonKind.NaturalPerson
 	name: string
@@ -29,7 +34,7 @@ export type NaturalPerson = {
 export type Company = {
 	personKind: PersonKind.LegalPerson
 	name: string
-	foundingDate: IsoDate
+	incorporationDate: IsoDate
 	companyNumber: IdentificationNumber
 	taxIdentificationNumber: IdentificationNumber
 	country: CountryCode
@@ -61,4 +66,10 @@ export type CompanyShareholder = {
 	shareholder: IdentificationNumber
 	company: CompanyNumber
 	amount: Amount
+}
+
+export type WorldState = {
+	humans: { [key: string]: Human }
+	naturalPersons: { [key: string]: NaturalPerson }
+	companies: { [key: string]: Company }
 }
